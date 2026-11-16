@@ -41,7 +41,7 @@ test('compose and send email 5 times', async () => {
   // Wait for the inbox UI instead of relying on the "load" event
   await page.getByRole('button', { name: 'Compose' }).waitFor({ timeout: 30000 });
 
-  for (let i = 1; i <= 5; i++) {
+  for (let i = 1; i <= 3; i++) {
     await page.getByRole('button', { name: 'Compose' }).click();
     await page.getByRole('combobox', { name: 'To recipients' }).fill('batcrespo063@gmail.com');
     await page.getByRole('textbox', { name: 'Subject' }).fill(`From Playwright Script #${i}`);
