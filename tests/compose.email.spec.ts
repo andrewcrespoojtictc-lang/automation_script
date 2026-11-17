@@ -1,9 +1,6 @@
-
 import { test, chromium, Page } from '@playwright/test';
 
-/*
-
-import { test, chromium } from '@playwright/test';
+ // import { test, chromium } from '@playwright/test';
 
 test('compose and send email', async () => {
   // test.setTimeout(60000);
@@ -20,10 +17,9 @@ test('compose and send email', async () => {
   await page.getByRole('textbox', { name: 'Message Body' }).fill('Genereated by Playwright Script');
   await page.getByRole('button', { name: /^Send/ }).click();
 });
-*/
 
-// LOOP 3 TIMES
 
+/* LOOP 
 test('compose and send email 3 times', async () => {
   const browser = await chromium.connectOverCDP('http://localhost:9222');
   const context = browser.contexts()[0];
@@ -52,4 +48,4 @@ test('compose and send email 3 times', async () => {
     await page.getByRole('button', { name: 'Compose' }).waitFor({ state: 'visible', timeout: 30000 });
   }
 });
-
+*/
