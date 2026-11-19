@@ -2,6 +2,7 @@ run test:
 npx playwright test compose.email.spec.ts --ui --project=chromium
 
 npx playwright codegen https://mail.google.com/mail/u/0/#inbox
+
 npx playwright open --save-storage=auth.json https://mail.google.com
 
 

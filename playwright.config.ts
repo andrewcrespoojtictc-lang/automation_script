@@ -8,6 +8,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: "html",
   use: {
+    baseURL: "http://localhost/BANKADVICE/",
     ...(process.env.PLAYWRIGHT_STORAGE_STATE
       ? { storageState: process.env.PLAYWRIGHT_STORAGE_STATE }
       : {}),
