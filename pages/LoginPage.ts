@@ -12,15 +12,34 @@ export class LoginPage {
   // app module
   readonly nav_ada: Locator;
 
-  // signatory
+  // sidebar navigation
+  readonly nav_transaction: Locator;
   readonly signatory_Nav: Locator;
+  readonly userNav: Locator;
+
+  // ADA transaction
+  readonly adaTransaction: Locator;
+  readonly bankAdviceModal: Locator;
+  readonly adaBank: Locator;
+  readonly adaFund: Locator;
+  readonly adaBankNo: Locator;
+  readonly adaCheck: Locator;
+  readonly adaOBR: Locator;
+  readonly adaPayee: Locator;
+  readonly adaParticulars: Locator;
+  readonly adaTax1: Locator;
+  readonly adaAmount: Locator;
+  readonly adaVoucherNo: Locator;
+  readonly adaCheckDate: Locator;
+  readonly adaSave: Locator;
+
+  // signatory
   readonly signatory_add: Locator;
   readonly signatory_name: Locator;
   readonly signatory_designation: Locator;
   readonly signatory_save: Locator;
 
   // user
-  readonly userNav: Locator;
   readonly userAddButton: Locator;
   readonly userModal: Locator;
   readonly userFirstName: Locator;
@@ -41,15 +60,34 @@ export class LoginPage {
     // app module
     this.nav_ada = page.getByRole('link', { name: ' Bank Advice' });
 
-    // signatory
+    // sidebar navigation
+    this.nav_transaction = page.getByRole('link', { name: ' Bank Advice' });
     this.signatory_Nav = page.getByRole('link', { name: ' Signatory' });
+    this.userNav = page.getByRole('link', { name: ' User' });
+
+    // ada transaction (the modal is assigned first, the fields use it)
+    this.adaTransaction = page.getByRole('button', { name: ' New Transaction' });
+    this.bankAdviceModal = page.locator('#bankAdviceModal');
+    this.adaBank = this.bankAdviceModal.locator('#input1'); // option
+    this.adaFund = this.bankAdviceModal.locator('#input2'); // option
+    this.adaBankNo = this.bankAdviceModal.locator('#input3'); // option
+    this.adaCheck = this.bankAdviceModal.locator('#input4'); // fill
+    this.adaOBR = this.bankAdviceModal.locator('#input5'); // fill
+    this.adaPayee = this.bankAdviceModal.locator('#input6'); // fill
+    this.adaParticulars = this.bankAdviceModal.locator('#input7'); // fill
+    this.adaTax1 = this.bankAdviceModal.getByRole('textbox', { name: '1%', exact: true }); // fill
+    this.adaAmount = this.bankAdviceModal.locator('#input8'); // fill
+    this.adaVoucherNo = this.bankAdviceModal.locator('#input14'); // fill
+    this.adaCheckDate = this.bankAdviceModal.locator('#input15'); // fill
+    this.adaSave = this.bankAdviceModal.getByRole('button', { name: ' Save' });
+
+    // signatory
     this.signatory_add = page.getByRole('button', { name: ' Add Signatory' });
     this.signatory_name = page.locator('#input1');
     this.signatory_designation = page.locator('#input2');
     this.signatory_save = page.getByRole('button', { name: ' Save' });
 
     // user
-    this.userNav = page.getByRole('link', { name: ' User' });
     this.userAddButton = page.getByRole('button', { name: ' Add User' });
     this.userModal = page.locator('#addUserModal');
     this.userFirstName = this.userModal.locator('input[name="first_name"]');
@@ -61,15 +99,48 @@ export class LoginPage {
     this.userSave = this.userModal.getByRole('button', { name: 'Save' });
   }
 
-  // Opens the login page (relative path, uses baseURL from playwright.config.ts)
+  // home page
   async goto() {
     await this.page.goto('/BANKADVICE/index.php');
   }
 
+  // login
   async login(username: string, password: string) {
     await this.usernameInput.fill(username);
     await this.passwordInput.fill(password);
     await this.signInButton.click();
+  }
+
+  // ---------- Bank Advice Transaction ----------
+
+  async openNewTransaction() {
+    await this.adaTransaction.click();
+  }
+
+  async fillBankAdvice(d: {
+    bank: string; fund: string; bankNo: string; check: string; obr: string;
+    payee: string; particulars: string; tax1: string; amount: string;
+    voucherNo: string; checkDate: string;
+  }) {
+    await this.adaBank.selectOption(d.bank);
+    await this.adaFund.selectOption(d.fund);
+    await this.adaBankNo.selectOption(d.bankNo); // after the bank
+    await this.adaCheck.fill(d.check);
+    await this.adaOBR.fill(d.obr);
+    await this.adaPayee.selectOption(d.payee); 
+    await this.adaParticulars.fill(d.particulars);
+    await this.adaTax1.fill(d.tax1);
+    await this.adaAmount.fill(d.amount);
+    await this.adaVoucherNo.fill(d.voucherNo);
+    await this.adaCheckDate.fill(d.checkDate);
+  }
+
+  async saveBankAdvice() {
+    await this.adaSave.click();
+  }
+
+  async adaNav() {
+    await this.nav_transaction.click();
   }
 
   // ---------- Signatory ----------
