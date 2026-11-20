@@ -1,15 +1,22 @@
   import { test, expect } from '@playwright/test';
   import { LoginPage } from '../pages/LoginPage';
+import { log } from 'console';
 
   // Credentials come from environment variables if set,
   // otherwise fall back to the default test account.
-  const USERNAME = process.env.APP_USER ?? 'drafter';
-  const PASSWORD = process.env.APP_PASS ?? 'drafter123';
+  const USERNAME = process.env.APP_USER ?? 'admin';
+  const PASSWORD = process.env.APP_PASS ?? 'admin123';
 
-  const signatory_name = 'Andrew';
-  const signatory_designation = 'CAC'; 
+
+  const name = 'Andrew';
+  const designation = 'CAC'; 
+
+  const user_usrname = 'reviewer3';
+  const user_pswrd = 'reviewer123';
+  const user_confirm_pswrd = 'reviewer123';
 
   
+/*  
   test.describe('Authentication', () => {
     let loginPage: LoginPage;
 
@@ -75,10 +82,36 @@
         
         await loginPage.signatory_modal();
 
-        await loginPage.add_designation(signatory_name, signatory_designation);
+        await loginPage.add_designation(name, designation);
 
       });
   });
+  */
 
-});
+    // User 
+    test.describe('User Navigation', () => {
+      let loginPage: LoginPage;
+      
+    test.beforeEach(async ({ page }) => {
+      loginPage = new LoginPage(page);
+      await loginPage.goto();
+    });
+
+    test('Add User', async ({ page }) => {
+      await loginPage.login(USERNAME, PASSWORD);
+      await expect(page).toHaveURL(/home\.php/); 
+      await loginPage.click_ada();
+      await loginPage.navSignatory();
+      await expect(page).toHaveURL(/users\.php/);
+      await loginPage.user_modal();
+      await loginPage.user_input(name, designation, user_usrname, user_pswrd, user_confirm_pswrd);
+      await loginPage.save_user();
+      });
+  });
+
+
+  
+  
+
+// });
  
